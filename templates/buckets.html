@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{if .Error}}Error: {{.Error}}{{else}}Bucket: {{.BucketPath}}{{end}}</title>
+	<style>
+		.error-bar {
+			background-color: red;
+			padding: 10px;
+			font-weight: bold;
+		}
+		h1 {
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		table {
+			margin-top: 30px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 80%;
+			border-collapse: collapse;
+			table-layout: fixed;
+		}
+		th, td {
+			border: 1px solid black;
+			padding: 5px;
+			text-align: left;
+			vertical-align: top;
+			word-wrap: break-word;
+		}
+		th {
+			background-color: lightgray;
+			font-weight: bold;
+			width: 1%;
+			white-space: nowrap;
+		}
+	</style>
+</head>
+<body>
+{{if .Error}}
+<div class="error-bar">{{.Error}}</div>
+{{else}}
+<h1>{{.BucketPath}}</h1>
+<table>
+	<thead>
+	<tr>
+		<th>Key</th>
+		<th>Value</th>
+	</tr>
+	</thead>
+	<tbody>
+	{{range .BucketDetails}}
+	<tr>
+		{{if .IsNested}}
+		<td><a href="/buckets/{{$.BucketPath}}{{if $.BucketPath}}/{{end}}{{.Key}}">{{printf "%s" .Key}}</a></td>
+		<td></td>
+		{{else}}
+		<td>{{ printf "%s" .Key }}</td>
+		<td>{{ printf "%s" .Value }}</td>
+		{{end}}
+	</tr>
+	{{end}}
+	</tbody>
+</table>
+{{end}}
+</body>
+</html>
